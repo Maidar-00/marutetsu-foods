@@ -1,5 +1,7 @@
 # マルテツフーズ株式会社 — コーポレートサイト + 管理画面
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/Maidar-00/marutetsu-foods)
+
 ## 起動方法
 
 1. **start.bat** をダブルクリックします。
