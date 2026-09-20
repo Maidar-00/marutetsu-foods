@@ -1,0 +1,326 @@
+{
+  "site": {
+    "companyName": "マルテツフーズ株式会社",
+    "companyNameEn": "MARUTETSU FOODS",
+    "tagline": "美味しさと安心で 人々を笑顔にする",
+    "heroImage": "/uploads/hero-sushi-gloi4tnJ.jpg",
+    "heroTitle": "私たちは「食」を提供することで、人々を笑顔にする会社です。",
+    "phone": "0566-48-5988",
+    "address": "〒447-0878 愛知県碧南市松本町28",
+    "hours": "9:00 - 18:00（土日祝除く）",
+    "copyright": "© マルテツフーズ株式会社"
+  },
+  "nav": [
+    {
+      "label": "事業内容",
+      "url": "/business"
+    },
+    {
+      "label": "会社情報",
+      "url": "/company"
+    },
+    {
+      "label": "お知らせ",
+      "url": "/news"
+    },
+    {
+      "label": "採用情報",
+      "url": "/recruit"
+    },
+    {
+      "label": "お問い合わせ",
+      "url": "/contact"
+    }
+  ],
+  "home": {
+    "philosophy": {
+      "en": "PHILOSOPHY",
+      "title": "私たちの想い",
+      "lead": "美味しさと安心を通じて、地域の皆様に笑顔をお届けします。",
+      "images": [
+        {
+          "src": "/uploads/chef-crafting-DMvUKnnQ.jpg",
+          "caption": "職人の手仕事"
+        },
+        {
+          "src": "/uploads/fresh-ingredients-DKf-kjAb.jpg",
+          "caption": "新鮮な食材"
+        },
+        {
+          "src": "/uploads/family-dining-YH2YRZ_A.jpg",
+          "caption": "家族の団らん"
+        }
+      ]
+    },
+    "business": {
+      "en": "BUSINESS",
+      "title": "事業内容",
+      "cards": [
+        {
+          "title": "レストラン事業",
+          "text": "レストランの経営を通じて、お客様に最高の食事体験をご提供しています。地元のお客様に愛される寿司・弁当・惣菜をご提供しております。",
+          "image": "/uploads/food-detail-DpB3b9yX.jpg",
+          "url": "/business"
+        },
+        {
+          "title": "【グループ会社】味まる",
+          "text": "碧南店を中心に展開する寿司・惣菜の専門店。新鮮な食材と職人の技が自慢です。",
+          "image": "/uploads/chef-crafting-DMvUKnnQ.jpg",
+          "url": "/business"
+        },
+        {
+          "title": "味ふうせん",
+          "text": "碧南市役所内にあるレストラン。安全な食事の提供と、地域の皆様の交流の場として親しまれています。",
+          "image": "/uploads/bento-box-Cub_Xfrs.jpg",
+          "url": "/business"
+        },
+        {
+          "title": "支援事業",
+          "text": "飲食業を検討されている方、空き店舗・テナント情報をお持ちの方、海外進出をご検討の方を支援しています。",
+          "image": "/uploads/team-work-Cf-i0ggX.jpg",
+          "url": "/business"
+        }
+      ]
+    },
+    "message": {
+      "en": "MESSAGE",
+      "title": "代表挨拶",
+      "role": "代表取締役",
+      "name": "五十嵐 巧",
+      "image": "/uploads/team-work-Cf-i0ggX.jpg",
+      "text": "私たちは「食」を提供することで、人々を笑顔にする会社です。「失敗・改善・成長・笑顔」の理念のもと、日々努力を重ねてまいります。",
+      "linkLabel": "会社情報を見る",
+      "linkUrl": "/company"
+    },
+    "quality": {
+      "en": "QUALITY",
+      "title": "こだわりの食材",
+      "lead": "安全でおいしい食事をお届けするために、三つのこだわりを持っています。",
+      "blocks": [
+        {
+          "title": "厳選素材",
+          "text": "産地にこだわった新鮮な食材を、毎日仕入れています。"
+        },
+        {
+          "title": "職人の技",
+          "text": "長年磨き上げた職人の技で、一つひとつ丁寧に作っています。"
+        },
+        {
+          "title": "心を込めて",
+          "text": "お客様の笑顔を思い浮かべながら、真心込めてお作りしています。"
+        }
+      ]
+    },
+    "news": {
+      "en": "NEWS",
+      "title": "お知らせ",
+      "linkLabel": "一覧を見る",
+      "linkUrl": "/news"
+    },
+    "recruit": {
+      "en": "RECRUIT",
+      "title": "採用情報",
+      "text": "私たちと一緒に働いてくれる方を募集中です。",
+      "linkLabel": "採用情報を見る",
+      "linkUrl": "/recruit"
+    },
+    "contact": {
+      "en": "CONTACT",
+      "title": "お問い合わせ",
+      "lead": "ご相談・ご連絡はこちらからお気軽にどうぞ。",
+      "targets": [
+        "飲食関連のお仕事を検討されている方、お困りの方",
+        "空き店舗・テナント情報をお持ちの方、活用をご検討の方",
+        "海外進出をご検討の方"
+      ],
+      "linkLabel": "お問い合わせはこちら",
+      "linkUrl": "/contact"
+    }
+  },
+  "businessPage": {
+    "en": "BUSINESS",
+    "title": "事業内容",
+    "heroImage": "/uploads/food-detail-DpB3b9yX.jpg",
+    "cards": [
+      {
+        "title": "レストラン事業",
+        "text": "レストランの経営を通じて、お客様に最高の食事体験をご提供しています。地元のお客様に愛される寿司・弁当・惣菜をご提供しております。",
+        "image": "/uploads/food-detail-DpB3b9yX.jpg"
+      },
+      {
+        "title": "【グループ会社】味まる",
+        "text": "碧南店を中心に展開する寿司・惣菜の専門店。新鮮な食材と職人の技で、おいしいお寿司と惣菜をお届けしています。",
+        "image": "/uploads/chef-crafting-DMvUKnnQ.jpg"
+      },
+      {
+        "title": "味ふうせん",
+        "text": "碧南市役所内にあるレストラン。安全な食事の提供と、地域の皆様の交流の場として親しまれています。",
+        "image": "/uploads/bento-box-Cub_Xfrs.jpg"
+      },
+      {
+        "title": "支援事業",
+        "text": "飲食業を検討されている方、空き店舗・テナント情報をお持ちの方、海外進出をご検討の方を支援しています。",
+        "image": "/uploads/team-work-Cf-i0ggX.jpg"
+      },
+      {
+        "title": "こども食堂",
+        "text": "こどもたちの笑顔と健やかな成長を支える、温かい食事をお届けする活動です。",
+        "image": "/uploads/family-dining-YH2YRZ_A.jpg"
+      }
+    ],
+    "newBusiness": {
+      "en": "NEW BUSINESS",
+      "title": "無人販売事業",
+      "text": "令和5年に始めた無人販売事業は、現在3か所に拡大しています。手軽に惣菜・弁当をお買い求めいただけます。また、委託による出張販売も新しいビジネスモデルとして展開しています。"
+    }
+  },
+  "companyPage": {
+    "en": "COMPANY",
+    "title": "会社情報",
+    "heroImage": "/uploads/team-work-Cf-i0ggX.jpg",
+    "message": {
+      "title": "代表挨拶",
+      "role": "代表取締役",
+      "name": "五十嵐 巧",
+      "image": "/uploads/team-work-Cf-i0ggX.jpg",
+      "paragraphs": [
+        "私は「過去」「現在」「未来」を意識し、経営にあたっております。過去を活かし、現在の運営を充実させ、未来へのチャレンジでスピード・対応力・改善力を磨き、基礎を築いているところでございます。",
+        "お客様の声を経営に反映し、笑顔を最優先にする姿勢を大切に、従業員は協調性・積極性・規律性・責任性を重んじております。社会情勢を踏まえた独自マーケット創造と利益追求で国に貢献したいと考えております。"
+      ]
+    },
+    "philosophy": {
+      "title": "企業理念",
+      "text": "「失敗・改善・成長・笑顔」"
+    },
+    "policy": {
+      "title": "企業方針",
+      "text": "「安心・衛生・おいしさを追求し、中でも衛生においては5S管理の徹底をします。衛生は手洗いにはじまり、手洗いで終わる。」"
+    },
+    "profile": {
+      "title": "会社概要",
+      "rows": [
+        [
+          "会社名",
+          "マルテツフーズ株式会社"
+        ],
+        [
+          "所在地",
+          "【本社】愛知県西尾市寄住町泡原28番地1　【事務所】愛知県碧南市松本町28（碧南市役所内1階）"
+        ],
+        [
+          "設立",
+          "平成21年11月"
+        ],
+        [
+          "資本金",
+          "1,000万円"
+        ],
+        [
+          "代表取締役",
+          "五十嵐 巧"
+        ],
+        [
+          "電話/FAX",
+          "0566-48-5988"
+        ],
+        [
+          "従業員数",
+          "正規6人・非正規90人（2023年8月現在）"
+        ],
+        [
+          "事業内容",
+          "寿司・弁当・惣菜等の加工販売、飲食店レストラン経営、FC事業経営"
+        ]
+      ]
+    },
+    "history": {
+      "title": "沿革",
+      "rows": [
+        [
+          "平成21年11月",
+          "ヤマナカアルテ碧南 デリカ事業継承（資本金100万）"
+        ],
+        [
+          "平成23年9月",
+          "同店にベーカリー開店"
+        ],
+        [
+          "平成27年2月",
+          "碧南市役所内レストラン「味ふうせん」オープン"
+        ],
+        [
+          "平成28年3月",
+          "FC大戸屋加盟"
+        ],
+        [
+          "平成28年10月",
+          "麺処直久加盟（エリアフランチャイズ本部取得）"
+        ],
+        [
+          "平成29年6月",
+          "「味まる」碧南店オープン"
+        ],
+        [
+          "平成29年10月",
+          "資本金1,000万円に増資"
+        ],
+        [
+          "令和5年2月",
+          "無人販売事業オープン"
+        ],
+        [
+          "令和5年7月",
+          "無人販売2号店"
+        ],
+        [
+          "令和5年8月",
+          "委託出張販売スタート"
+        ],
+        [
+          "令和6年4月",
+          "無人販売3号店"
+        ]
+      ]
+    }
+  },
+  "newsPage": {
+    "en": "NEWS",
+    "title": "お知らせ",
+    "heroImage": "/uploads/food-detail-DpB3b9yX.jpg"
+  },
+  "recruitPage": {
+    "en": "RECRUIT",
+    "title": "採用情報",
+    "heroImage": "/uploads/team-work-Cf-i0ggX.jpg",
+    "lead": "私たちと一緒に働いてくれる方を募集中です。",
+    "text": "「食」を通じて人々を笑顔にするお仕事に興味のある方、チームワークを大切に、一人ひとりの成長をサポートする会社で働いてみませんか。",
+    "ctaLabel": "お問い合わせはこちら",
+    "ctaUrl": "/contact"
+  },
+  "contactPage": {
+    "en": "CONTACT",
+    "title": "お問い合わせ",
+    "lead": "ご相談・ご連絡はこちらからお気軽にどうぞ。",
+    "heroImage": "/uploads/bento-box-Cub_Xfrs.jpg",
+    "targets": [
+      "飲食関連のお仕事を検討されている方、お困りの方",
+      "空き店舗・テナント情報をお持ちの方、活用をご検討の方",
+      "海外進出をご検討の方"
+    ],
+    "mailTitle": "お問い合わせ",
+    "mailText": "飲食関連の詳しいご相談はメールにてご連絡ください。",
+    "phoneButton": "お電話でもどうぞ",
+    "phoneTitle": "0566-48-5988",
+    "phoneHours": "9:00 - 18:00（土日祝除く）",
+    "callButton": "電話する"
+  },
+  "news": [
+    {
+      "id": "n1",
+      "date": "2021.02.13",
+      "title": "ホームページリニューアルのお知らせ",
+      "body": "このたび、ホームページをリニューアルいたしました。今後も皆様に愛されるサイトづくりを目指してまいります。"
+    }
+  ],
+  "customPages": []
+}
