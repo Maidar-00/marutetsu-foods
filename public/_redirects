@@ -1,0 +1,3 @@
+# Netlify redirects (same rules as netlify.toml — this file works on every deploy type)
+/api/*  /.netlify/functions/app/:splat  200
+/page/* /page.html  200

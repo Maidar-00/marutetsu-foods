@@ -182,8 +182,21 @@ async function saveContent(content) {
 
 function cloudinary() {
   const cld = require('cloudinary').v2;
-  // the SDK auto-configures from CLOUDINARY_URL or
-  // CLOUDINARY_CLOUD_NAME / CLOUDINARY_API_KEY / CLOUDINARY_API_SECRET
+  if (!cld.config().cloud_name) {
+    if (process.env.CLOUDINARY_URL) {
+      cld.config(true); // parse CLOUDINARY_URL=cloud://key:secret@cloud_name
+    } else if (
+      process.env.CLOUDINARY_CLOUD_NAME &&
+      process.env.CLOUDINARY_API_KEY &&
+      process.env.CLOUDINARY_API_SECRET
+    ) {
+      cld.config({
+        cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+        api_key: process.env.CLOUDINARY_API_KEY,
+        api_secret: process.env.CLOUDINARY_API_SECRET
+      });
+    }
+  }
   return cld.config().cloud_name ? cld : null;
 }
 
