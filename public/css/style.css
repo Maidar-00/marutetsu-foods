@@ -622,3 +622,6 @@ a.news-item:hover::before, .news-item:hover::before { transform: scaleX(1); }
   .reveal { opacity: 1; transform: none; }
   .hero-tagline .char { opacity: 1; transform: none; }
 }
+
+/* Hide the floating "Netlify" badge injected on free CLI deploys */
+.nl-badge, .nl-mini, .nl-bar { display: none !important; }
