@@ -22,8 +22,11 @@ const SEED_CONTENT = require('../data/content.json');
 const useDb = !!process.env.DATABASE_URL;
 const mode = useDb ? 'cloud' : 'local';
 
-fs.mkdirSync(DATA_DIR, { recursive: true });
-fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+if (!useDb) {
+  // only needed for local file storage — the serverless bundle is read-only
+  fs.mkdirSync(DATA_DIR, { recursive: true });
+  fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+}
 
 /* ------------------------------ kv (Postgres) ----------------------------- */
 
