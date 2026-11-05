@@ -151,18 +151,22 @@ const imageFilter = (req, file, cb) => {
   else cb(new Error('画像ファイルのみアップロードできます'));
 };
 
-// local mode → disk (public/uploads/), cloud mode → memory → Cloudinary
-const uploadLocal = multer({
-  storage: multer.diskStorage({
-    destination: store.UPLOADS_DIR,
-    filename: (req, file, cb) => {
-      const ext = (path.extname(file.originalname) || '.jpg').toLowerCase();
-      cb(null, Date.now() + '-' + crypto.randomBytes(4).toString('hex') + ext);
-    }
-  }),
-  limits: { fileSize: 10 * 1024 * 1024 },
-  fileFilter: imageFilter
-});
+// local mode → disk (public/uploads/), cloud mode → memory → Cloudinary.
+// NB: build the disk uploader lazily — multer mkdirs the destination on
+// construction, which fails on the read-only serverless filesystem.
+const uploadLocal = store.useDb
+  ? null
+  : multer({
+      storage: multer.diskStorage({
+        destination: store.UPLOADS_DIR,
+        filename: (req, file, cb) => {
+          const ext = (path.extname(file.originalname) || '.jpg').toLowerCase();
+          cb(null, Date.now() + '-' + crypto.randomBytes(4).toString('hex') + ext);
+        }
+      }),
+      limits: { fileSize: 10 * 1024 * 1024 },
+      fileFilter: imageFilter
+    });
 const uploadMemory = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 10 * 1024 * 1024 },
