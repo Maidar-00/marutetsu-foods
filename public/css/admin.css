@@ -268,4 +268,4 @@ img { max-width: 100%; }
 }
 
 /* Hide the floating "Netlify" badge injected on free CLI deploys */
-.nl-badge, .nl-mini, .nl-bar { display: none !important; }
+#nl-badge-frame, #nl-hud-frame, .nl-badge, .nl-mini, .nl-bar { display: none !important; }
