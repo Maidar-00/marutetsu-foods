@@ -1,14 +1,16 @@
 # マルテツフーズ株式会社 — コーポレートサイト + 管理画面
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/Maidar-00/marutetsu-foods)
+本番環境： **Netlify**（ホスティング）+ **Neon**（データベース）+ **Cloudinary**（画像CDN）
+→ 管理画面での変更はすべて**永久に保存**されます。🇲🇳 セットアップ手順は **DEPLOY-GUIDE.md**（モンゴル語）を参照。
 
-## 起動方法
+## ローカルで起動
 
 1. **start.bat** をダブルクリックします。
 2. ブラウザが自動的に開きます： http://localhost:3000
 3. 管理画面： http://localhost:3000/admin
 
-> 初回起動時のみ、依存パッケージのインストールに数分かかります。
+> ローカルではファイル保存（`data/` + `public/uploads/`）で動作します。
+> `.env` に `DATABASE_URL` と Cloudinary キーを書くと、ローカルでもクラウド保存をテストできます。
 
 ## 初期ログイン情報
 
@@ -29,26 +31,33 @@
 - 📞 **お問い合わせページ**
 - 📰 **お知らせ管理** — お知らせの追加・編集・削除
 - 📄 **ページ作成** — 見出し / テキスト / 画像ブロックを組み合わせた独自ページ、メニュー表示のON/OFF
-- 🖼 **画像ライブラリ** — 画像のアップロード（ドラッグ＆ドロップ対応）
+- 🖼 **画像ライブラリ** — 画像のアップロード（ドラッグ＆ドロップ対応、自動リサイズ/圧縮）
 - ⚙️ **設定 / パスワード** — ログイン情報の変更
 
 編集後は右下に表示される **💾 保存する** ボタンを押すと、サイトにすぐ反映されます。（Ctrl+S でも保存できます。）
 
-保存するたびに、前のバージョンが `data/content.backup.json` に自動バックアップされます。
-
-## ファイル構成
+## アーキテクチャ
 
 ```
-├── start.bat               ← これをダブルクリックして起動
-├── server.js               ← サーバー
+├── server.js                  ← ローカル起動用（node server.js）
+├── src/
+│   ├── app.js                 ← Express アプリ（ローカルと Netlify で共用）
+│   ├── storage.js             ← 保存レイヤー：ファイル / Neon+Cloudinary を自動切替
+│   └── bundled-images.json    ← リポジトリ同梱画像のリスト
+├── netlify/
+│   └── functions/app.js       ← Netlify サーバーレス関数
+├── netlify.toml               ← Netlify 設定（/api/* → 関数、/page/* → page.html）
 ├── data/
-│   ├── content.json        ← サイトの全コンテンツ（管理画面から編集）
-│   ├── content.backup.json ← 前のバージョン（自動バックアップ）
-│   └── users.json          ← ログイン情報
-├── uploads/                ← アップロードされた画像
-└── public/                 ← サイトのページ
-    ├── admin.html          ← 管理画面
-    └── ...
+│   ├── content.json           ← コンテンツ（ローカル用 / クラウドの初期シード）
+│   └── users.json             ← ログイン情報（.gitignore 済み）
+└── public/                    ← サイト（Netlify の公開ディレクトリ）
+    ├── uploads/               ← 同梱画像 + ローカルアップロード画像
+    └── *.html
 ```
 
-サーバーを停止するには、コマンドプロンプトのウィンドウを閉じてください。
+### なぜ古い Render（無料）では保存が消えたのか
+
+Render の無料プランは**エフェメラルディスク**（再起動のたびに初期化）のため、
+`data/content.json` やアップロード画像が消えていました。新しい構成では
+コンテンツ・ログイン情報・セッションは **Neon Postgres** へ、アップロード画像は
+**Cloudinary** へ保存されるため、再起動・再デプロイ後も消えません。

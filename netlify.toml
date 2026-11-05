@@ -1,0 +1,18 @@
+# Netlify configuration — marutetsu-foods
+# Static pages come from /public (pretty URLs are automatic: /business → business.html).
+
+[build]
+  publish = "public"
+  functions = "netlify/functions"
+
+# All API traffic → the Express serverless function
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/app/:splat"
+  status = 200
+
+# Custom pages created in the admin (/page/<slug>) → static template
+[[redirects]]
+  from = "/page/*"
+  to = "/page.html"
+  status = 200

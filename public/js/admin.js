@@ -328,14 +328,41 @@
     }
   }
 
+  /* Resize/compress big images in the browser before uploading:
+     max 1920px, JPEG 85% — faster uploads and works on every host. */
+  async function compressImage(file) {
+    if (!/^image\/(jpeg|png|webp)$/.test(file.type)) return file;
+    try {
+      const bitmap = await createImageBitmap(file);
+      const maxDim = 1920;
+      const scale = Math.min(1, maxDim / Math.max(bitmap.width, bitmap.height));
+      if (scale >= 1 && file.size < 900 * 1024) {
+        if (bitmap.close) bitmap.close();
+        return file; // already small enough
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.round(bitmap.width * scale);
+      canvas.height = Math.round(bitmap.height * scale);
+      canvas.getContext('2d').drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+      if (bitmap.close) bitmap.close();
+      const blob = await new Promise((r) => canvas.toBlob(r, 'image/jpeg', 0.85));
+      if (!blob || blob.size >= file.size) return file;
+      const name = String(file.name || 'image.jpg').replace(/\.[^.]+$/, '') + '.jpg';
+      return new File([blob], name, { type: 'image/jpeg' });
+    } catch (e) {
+      return file; // unsupported browser / broken file — upload as-is
+    }
+  }
+
   async function uploadFiles(fileList) {
     const progress = $('#upload-progress');
     progress.hidden = false;
     progress.textContent = 'アップロード中...';
     let lastUrl = null;
-    for (const file of Array.from(fileList)) {
+    for (const rawFile of Array.from(fileList)) {
+      const file = await compressImage(rawFile);
       const fd = new FormData();
-      fd.append('file', file);
+      fd.append('file', file, file.name);
       try {
         const res = await fetch('/api/upload', { method: 'POST', body: fd });
         const data = await res.json();

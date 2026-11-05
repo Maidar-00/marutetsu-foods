@@ -17,5 +17,5 @@ echo ================================================
 echo.
 
 start "" http://localhost:3000
-node server.js
+node --env-file-if-exists=.env server.js
 pause
