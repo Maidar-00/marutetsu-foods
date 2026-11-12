@@ -147,17 +147,23 @@
   function renderHome() {
     const h = CONTENT.home, s = CONTENT.site;
 
-    // hero
-    $('.hero').innerHTML = `
-      <img src="${esc(s.heroImage)}" alt="">
-      <div class="hero-inner">
+    // hero — the brand mark is static HTML (first paint), so build around it
+    // without detaching it: its float-up animation must not restart.
+    const heroEl = $('.hero');
+    heroEl.insertAdjacentHTML('afterbegin', `<img src="${esc(s.heroImage)}" alt="">`);
+    const heroInner = $('.hero-inner');
+    if (!heroInner.querySelector('.hero-logo-float')) {
+      heroInner.insertAdjacentHTML('afterbegin',
+        '<span class="hero-logo-float" aria-hidden="true"><img class="hero-logo" src="/images/logo-m.png" alt=""></span>');
+    }
+    heroInner.insertAdjacentHTML('beforeend', `
         <p class="hero-en">${esc(s.companyNameEn)}</p>
         <h1 class="hero-tagline" id="hero-tagline">${esc(s.tagline)}</h1>
         <p class="hero-title">${esc(s.heroTitle)}</p>
-        <a class="hero-cta" href="/contact">お問い合わせ</a>
-      </div>
+        <a class="hero-cta" href="/contact">お問い合わせ</a>`);
+    heroEl.insertAdjacentHTML('beforeend', `
       <div class="hero-vertical">MARUTETSU FOODS COMPANY</div>
-      <div class="hero-scroll"><span class="txt">SCROLL</span><span class="line"></span></div>`;
+      <div class="hero-scroll"><span class="txt">SCROLL</span><span class="line"></span></div>`);
 
     // philosophy
     const ph = h.philosophy;
@@ -436,10 +442,14 @@
       const text = tagline.textContent;
       tagline.textContent = '';
       Array.from(text).forEach((ch, i) => {
+        if (ch === ' ') { // deliberate line break, not a wrap point
+          tagline.appendChild(document.createElement('br'));
+          return;
+        }
         const span = document.createElement('span');
         span.className = 'char';
         span.textContent = ch;
-        span.style.animationDelay = (0.4 + i * 0.045) + 's';
+        span.style.animationDelay = (0.75 + i * 0.045) + 's';
         tagline.appendChild(span);
       });
     }

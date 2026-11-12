@@ -14,7 +14,13 @@
 <body data-page="home">
   <header class="site-header" id="site-header"></header>
 
-  <section class="hero" id="hero"></section>
+  <section class="hero" id="hero">
+    <!-- brand mark is static HTML so it floats up on first paint,
+         before the content API answers; site.js fills in the rest -->
+    <div class="hero-inner">
+      <span class="hero-logo-float" aria-hidden="true"><img class="hero-logo" src="/images/logo-m.png" alt=""></span>
+    </div>
+  </section>
 
   <section class="section" id="philosophy"></section>
 
