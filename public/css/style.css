@@ -58,11 +58,11 @@ ul { list-style: none; }
 .site-header.scrolled .header-inner { padding-top: 10px; padding-bottom: 10px; }
 .logo { display: flex; align-items: center; gap: 13px; min-width: 0; }
 .logo-mark {
-  width: 46px; height: 46px; flex: none; display: block;
-  filter: drop-shadow(0 8px 18px -8px rgba(122, 98, 64, .55));
+  height: 42px; width: auto; flex: none; display: block;
+  filter: drop-shadow(0 8px 18px -10px rgba(62, 50, 38, .45));
   transition: transform .5s var(--ease);
 }
-.logo:hover .logo-mark { transform: rotate(360deg); transition: transform .9s var(--ease); }
+.logo:hover .logo-mark { transform: translateY(-2px); }
 .logo-text { line-height: 1.35; }
 .logo-text .ja { font-size: 17.5px; font-weight: 700; letter-spacing: .05em; display: block; white-space: nowrap; color: #3E3226; }
 .logo-text .en { font-size: 9.5px; letter-spacing: .3em; color: #8A7B6A; display: block; font-weight: 600; }

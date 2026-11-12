@@ -36,11 +36,7 @@
     $('#site-header').innerHTML = `
       <div class="header-inner">
         <a class="logo" href="/">
-          <svg class="logo-mark" viewBox="0 0 100 100" aria-hidden="true">
-            <circle cx="50" cy="50" r="50" fill="#7A6240"/>
-            <circle cx="50" cy="50" r="41.5" fill="none" stroke="#F5F2EC" stroke-width="1.5" opacity=".85"/>
-            <text x="50" y="66.5" font-size="46" text-anchor="middle" fill="#FDFBF7" font-family="'Noto Serif JP', serif" font-weight="600">丸</text>
-          </svg>
+          <img class="logo-mark" src="/images/logo-m.png" alt="MARUTETSU" width="72" height="42">
           <span class="logo-text">
             <span class="ja">マルテツフーズ</span>
             <span class="en">${esc(s.companyNameEn)}</span>
