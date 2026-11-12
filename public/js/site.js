@@ -17,14 +17,6 @@
 
   let CONTENT = null;
 
-  // show the preloader immediately (script sits at the end of <body>)
-  if (!document.getElementById('preloader')) {
-    const pre = document.createElement('div');
-    pre.id = 'preloader';
-    pre.innerHTML = '<div class="mark">丸</div><div class="name">MARUTETSU FOODS</div>';
-    document.body.appendChild(pre);
-  }
-
   /* ========================= header / footer ========================= */
 
   function buildNavLinks() {
@@ -44,9 +36,13 @@
     $('#site-header').innerHTML = `
       <div class="header-inner">
         <a class="logo" href="/">
-          <span class="logo-mark">丸</span>
+          <svg class="logo-mark" viewBox="0 0 100 100" aria-hidden="true">
+            <circle cx="50" cy="50" r="50" fill="#7A6240"/>
+            <circle cx="50" cy="50" r="41.5" fill="none" stroke="#F5F2EC" stroke-width="1.5" opacity=".85"/>
+            <text x="50" y="66.5" font-size="46" text-anchor="middle" fill="#FDFBF7" font-family="'Noto Serif JP', serif" font-weight="600">丸</text>
+          </svg>
           <span class="logo-text">
-            <span class="ja">${esc(s.companyName)}</span>
+            <span class="ja">マルテツフーズ</span>
             <span class="en">${esc(s.companyNameEn)}</span>
           </span>
         </a>
@@ -508,17 +504,6 @@
     }
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
-
-    // dismiss preloader
-    const pre = document.getElementById('preloader');
-    if (pre) {
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          pre.classList.add('done');
-          setTimeout(() => pre.remove(), 900);
-        });
-      });
-    }
   }
 
   /* =============================== boot ============================== */
@@ -538,8 +523,6 @@
       const res = await fetch('/api/content');
       CONTENT = await res.json();
     } catch (e) {
-      const pre = document.getElementById('preloader');
-      if (pre) pre.remove();
       document.body.innerHTML =
         '<p style="padding:60px;text-align:center">コンテンツを読み込めませんでした。サーバーが起動しているかご確認ください。<br>（start.bat をダブルクリックして起動してください）</p>';
       return;
