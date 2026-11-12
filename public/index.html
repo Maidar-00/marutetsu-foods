@@ -12,14 +12,18 @@
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body data-page="home">
+  <!-- splash: static HTML so the brand mark greets the visitor at first
+       paint, before any JavaScript or API call; site.js slides it away
+       once the content has rendered -->
+  <div id="preloader" aria-hidden="true">
+    <div class="mark"><img src="/images/logo-m.png" alt=""></div>
+    <div class="name">MARUTETSU FOODS</div>
+  </div>
+
   <header class="site-header" id="site-header"></header>
 
   <section class="hero" id="hero">
-    <!-- brand mark is static HTML so it floats up on first paint,
-         before the content API answers; site.js fills in the rest -->
-    <div class="hero-inner">
-      <span class="hero-logo-float" aria-hidden="true"><img class="hero-logo" src="/images/logo-m.png" alt=""></span>
-    </div>
+    <div class="hero-inner"></div>
   </section>
 
   <section class="section" id="philosophy"></section>

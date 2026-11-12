@@ -147,23 +147,19 @@
   function renderHome() {
     const h = CONTENT.home, s = CONTENT.site;
 
-    // hero — the brand mark is static HTML (first paint), so build around it
-    // without detaching it: its float-up animation must not restart.
-    const heroEl = $('.hero');
-    heroEl.insertAdjacentHTML('afterbegin', `<img src="${esc(s.heroImage)}" alt="">`);
-    const heroInner = $('.hero-inner');
-    if (!heroInner.querySelector('.hero-logo-float')) {
-      heroInner.insertAdjacentHTML('afterbegin',
-        '<span class="hero-logo-float" aria-hidden="true"><img class="hero-logo" src="/images/logo-m.png" alt=""></span>');
-    }
-    heroInner.insertAdjacentHTML('beforeend', `
+    // hero — built fresh after the content fetch, so its entrance
+    // animations play in step with the splash veil sliding away
+    $('.hero').innerHTML = `
+      <img src="${esc(s.heroImage)}" alt="">
+      <div class="hero-inner">
+        <span class="hero-logo-float" aria-hidden="true"><img class="hero-logo" src="/images/logo-m.png" alt=""></span>
         <p class="hero-en">${esc(s.companyNameEn)}</p>
         <h1 class="hero-tagline" id="hero-tagline">${esc(s.tagline)}</h1>
         <p class="hero-title">${esc(s.heroTitle)}</p>
-        <a class="hero-cta" href="/contact">お問い合わせ</a>`);
-    heroEl.insertAdjacentHTML('beforeend', `
+        <a class="hero-cta" href="/contact">お問い合わせ</a>
+      </div>
       <div class="hero-vertical">MARUTETSU FOODS COMPANY</div>
-      <div class="hero-scroll"><span class="txt">SCROLL</span><span class="line"></span></div>`);
+      <div class="hero-scroll"><span class="txt">SCROLL</span><span class="line"></span></div>`;
 
     // philosophy
     const ph = h.philosophy;
@@ -510,6 +506,17 @@
     }
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
+
+    // dismiss the splash — content is in, lift the curtain
+    const pre = document.getElementById('preloader');
+    if (pre && !pre.classList.contains('done')) {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          pre.classList.add('done');
+          setTimeout(() => pre.remove(), 900);
+        });
+      });
+    }
   }
 
   /* =============================== boot ============================== */
@@ -525,10 +532,21 @@
   };
 
   document.addEventListener('DOMContentLoaded', async () => {
+    // never trap the visitor on the splash if the content API hangs
+    setTimeout(() => {
+      const pre = document.getElementById('preloader');
+      if (pre && !pre.classList.contains('done')) {
+        pre.classList.add('done');
+        setTimeout(() => pre.remove(), 900);
+      }
+    }, 6000);
+
     try {
       const res = await fetch('/api/content');
       CONTENT = await res.json();
     } catch (e) {
+      const pre = document.getElementById('preloader');
+      if (pre) pre.remove();
       document.body.innerHTML =
         '<p style="padding:60px;text-align:center">コンテンツを読み込めませんでした。サーバーが起動しているかご確認ください。<br>（start.bat をダブルクリックして起動してください）</p>';
       return;

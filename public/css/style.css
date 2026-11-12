@@ -38,6 +38,50 @@ ul { list-style: none; }
 
 .container { max-width: 1100px; margin: 0 auto; padding: 0 28px; }
 
+/* ---------------- splash (home first paint) ---------------- */
+/* the brand mark greets the visitor on a clean white field, floats up
+   inside a pulsing ring, then the whole veil slides away once the
+   content has rendered (site.js adds .done) */
+#preloader {
+  position: fixed; inset: 0; z-index: 999;
+  background: var(--bg);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 26px;
+  transition: transform .8s var(--ease), opacity .8s var(--ease);
+}
+#preloader.done { transform: translateY(-100%); opacity: 0; pointer-events: none; }
+#preloader .mark {
+  position: relative; width: clamp(150px, 20vw, 190px);
+  opacity: 0; transform: translateY(28px);
+  animation: splashRise 1s .1s var(--ease) forwards;
+}
+#preloader .mark img {
+  display: block; width: 100%; height: auto;
+  filter: drop-shadow(0 12px 26px rgba(90, 20, 25, .16));
+}
+#preloader .mark::before { /* soft breathing halo */
+  content: ""; position: absolute; left: 50%; top: 50%; z-index: -1;
+  width: 280%; height: 380%; transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse at center, rgba(157, 34, 51, .07) 0%, rgba(157, 34, 51, .025) 45%, transparent 70%);
+  border-radius: 50%;
+}
+#preloader .mark::after { /* pulsing ring around the monogram */
+  content: ""; position: absolute; left: 50%; top: 50%;
+  width: 116%; height: 168%;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(157, 34, 51, .42); border-radius: 50%;
+  animation: ringPulse 1.9s ease-out infinite;
+}
+#preloader .name {
+  font-family: var(--serif); letter-spacing: .42em; font-size: 13px;
+  color: var(--ink); padding-left: .42em;
+  animation: fadeUp .9s .3s var(--ease) both;
+}
+@keyframes splashRise { to { opacity: 1; transform: translateY(0); } }
+@keyframes ringPulse {
+  from { transform: translate(-50%, -50%) scale(.86); opacity: .9; }
+  to { transform: translate(-50%, -50%) scale(1.14); opacity: 0; }
+}
+
 /* ---------------- shared motion ---------------- */
 @keyframes fadeUp { from { transform: translateY(14px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
