@@ -468,9 +468,10 @@
     bindInquiryForm();
   }
 
-  /* The inquiry form posts to Netlify Forms (detected at deploy time from the
-     hidden static twin in contact.html). Submission → marutetsu3@carrot.ocn.ne.jp
-     via the site's email notification configured in Netlify. */
+  /* The inquiry form posts to our /api/inquiry endpoint, which emails the
+     submission to marutetsu3@carrot.ocn.ne.jp (OCN SMTP) and archives a copy
+     in Netlify Forms. The hidden static twin in contact.html keeps the form
+     registered for the archive step. */
   function bindInquiryForm() {
     const form = $('#inquiry-form');
     if (!form) return;
@@ -485,7 +486,7 @@
       e.preventDefault();
       status.hidden = true;
 
-      // client-side validation (spam bots are caught by the honeypot + Netlify)
+      // client-side validation (bots are caught by the honeypot, server-side)
       const bad = {
         name: !field('name').value.trim(),
         email: !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(field('email').value.trim()),
@@ -495,21 +496,19 @@
       const firstBad = ['name', 'email', 'message'].find((n) => bad[n]);
       if (firstBad) { field(firstBad).focus(); return; }
 
-      const data = new URLSearchParams();
-      data.append('form-name', 'inquiry');
-      data.append('inquiry-hp', field('inquiry-hp').value); // humans leave it empty
+      const payload = { 'inquiry-hp': field('inquiry-hp').value }; // humans leave it empty
       ['name', 'company', 'email', 'tel', 'category', 'message'].forEach((n) =>
-        data.append(n, field(n).value.trim())
+        payload[n] = field(n).value.trim()
       );
 
       btn.disabled = true;
       const label = btn.textContent;
       btn.textContent = '送信中…';
       try {
-        const res = await fetch('/contact', {
+        const res = await fetch('/api/inquiry', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-          body: data.toString()
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
         });
         if (!res.ok) throw new Error('submission failed');
         form.hidden = true;

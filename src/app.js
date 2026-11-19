@@ -12,6 +12,7 @@ const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 const store = require('./storage');
+const { sendInquiryMail } = require('./mailer');
 
 const app = express();
 const PUBLIC_DIR = path.join(__dirname, '..', 'public');
@@ -142,6 +143,73 @@ app.put('/api/content', requireAuth, async (req, res) => {
   } catch (e) {
     res.status(500).json({ error: '保存できませんでした' });
   }
+});
+
+/* ------------------------------ inquiries -------------------------------- */
+
+// Contact-form submissions: validated here, emailed to the company mailbox
+// via OCN SMTP (src/mailer.js), and on Netlify also archived as a copy in
+// Netlify Forms by relaying the same data to the site's ingest endpoint.
+const inquiryHits = new Map(); // soft per-IP rate limit (best effort in serverless)
+
+app.post('/api/inquiry', async (req, res) => {
+  const body = req.body || {};
+  const clean = (v, max) => String(v == null ? '' : v).trim().slice(0, max);
+  const f = {
+    name: clean(body.name, 100),
+    company: clean(body.company, 100),
+    email: clean(body.email, 254),
+    tel: clean(body.tel, 30),
+    category: clean(body.category, 60),
+    message: clean(body.message, 5000)
+  };
+  const honeypot = clean(body['inquiry-hp'], 200);
+
+  // a filled honeypot means a bot — acknowledge so it can't probe further
+  if (honeypot) return res.json({ ok: true });
+
+  if (!f.name || !f.message || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email)) {
+    return res.status(400).json({ error: '入力内容に不備があります。' });
+  }
+
+  // throttle: 5 submissions per 15 minutes per IP
+  const ip =
+    (req.headers['x-nf-client-connection-ip'] || '').split(',')[0].trim() ||
+    req.ip ||
+    'unknown';
+  const now = Date.now();
+  const rec = inquiryHits.get(ip) || { count: 0, reset: now + 15 * 60 * 1000 };
+  if (now > rec.reset) { rec.count = 0; rec.reset = now + 15 * 60 * 1000; }
+  rec.count++;
+  inquiryHits.set(ip, rec);
+  if (rec.count > 5) {
+    return res.status(429).json({ error: 'リクエストが多すぎます。しばらくしてからもう一度お願いします。' });
+  }
+
+  try {
+    await sendInquiryMail(f); // authoritative destination — must succeed first
+  } catch (e) {
+    console.error('inquiry mail failed:', e.message);
+    return res.status(500).json({ error: '送信できませんでした。しばらくしてからもう一度お願いいたします。' });
+  }
+
+  // best-effort archive copy in Netlify Forms (cloud only). Awaited before
+  // responding — a serverless function may freeze once the response is sent.
+  if (process.env.NETLIFY) {
+    try {
+      const data = new URLSearchParams({ 'form-name': 'inquiry', 'inquiry-hp': '' });
+      Object.keys(f).forEach((k) => data.append(k, f[k]));
+      await fetch('https://marutetsufoods.com/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+        body: data.toString()
+      });
+    } catch (e) {
+      /* the email above already went out — the archive copy is optional */
+    }
+  }
+
+  res.json({ ok: true });
 });
 
 /* -------------------------------- uploads --------------------------------- */
