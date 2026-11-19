@@ -513,6 +513,75 @@ a.news-item:hover::before, .news-item:hover::before { transform: scaleX(1); }
 .btn.line::before { background: var(--ink); }
 .btn.line:hover { color: #fff; }
 
+/* ---------------- inquiry form ---------------- */
+.inquiry-form { max-width: 860px; margin: 0 auto; text-align: left; }
+.inquiry-hp { position: absolute; left: -9999px; top: -9999px; } /* spam trap — never visible */
+.inquiry-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; }
+.inquiry-field { margin-bottom: 24px; }
+.inquiry-field label {
+  display: block; font-size: 12.5px; font-weight: 600;
+  letter-spacing: .08em; margin-bottom: 8px; color: var(--ink);
+}
+.inquiry-field .req {
+  display: inline-block; font-size: 10px; font-weight: 600; color: #fff;
+  background: var(--accent); padding: 1px 8px 0; margin-left: 8px;
+  letter-spacing: .12em; vertical-align: 1px;
+}
+.inquiry-field .opt {
+  font-size: 10.5px; font-weight: 500; color: var(--ink-soft);
+  margin-left: 8px; letter-spacing: .06em;
+}
+.inquiry-field input, .inquiry-field select, .inquiry-field textarea {
+  width: 100%; border: 1px solid var(--line); background: #fff;
+  font: inherit; font-size: 14.5px; color: var(--ink);
+  padding: 12px 14px; letter-spacing: .02em; border-radius: 0;
+  -webkit-appearance: none; appearance: none;
+  transition: border-color .3s, box-shadow .3s;
+}
+.inquiry-field select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23a8854e' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 14px center;
+  padding-right: 36px; cursor: pointer;
+}
+.inquiry-field textarea { min-height: 180px; resize: vertical; line-height: 1.9; }
+.inquiry-field input:focus, .inquiry-field select:focus, .inquiry-field textarea:focus {
+  outline: none; border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(157, 34, 51, .08);
+}
+.inquiry-field.is-error input, .inquiry-field.is-error textarea {
+  border-color: var(--accent); background: #fdf7f7;
+}
+.if-error { display: none; font-size: 12px; color: var(--accent); margin-top: 6px; letter-spacing: .03em; }
+.inquiry-field.is-error .if-error { display: block; }
+.inquiry-note {
+  font-size: 11.5px; color: var(--ink-soft);
+  letter-spacing: .03em; margin: 2px 0 28px;
+}
+.inquiry-actions { text-align: center; }
+.inquiry-submit {
+  border: none; cursor: pointer; font-family: var(--sans);
+  min-width: 260px; font-weight: 600;
+}
+.inquiry-submit:disabled { opacity: .55; cursor: default; }
+.inquiry-submit:disabled:hover::before { transform: scaleX(0); }
+.form-status {
+  border: 1px solid rgba(157, 34, 51, .35); background: #fbf2f3;
+  color: var(--accent-dark); padding: 14px 20px; font-size: 13.5px;
+  letter-spacing: .03em; margin-bottom: 26px;
+}
+.form-done {
+  max-width: 640px; margin: 30px auto 0; text-align: center;
+  border: 1px solid var(--gold-soft); padding: 56px 30px; position: relative;
+}
+.form-done::before, .form-done::after {
+  content: ""; position: absolute; width: 14px; height: 14px;
+}
+.form-done::before { top: -1px; left: -1px; border-top: 2px solid var(--gold); border-left: 2px solid var(--gold); }
+.form-done::after { bottom: -1px; right: -1px; border-bottom: 2px solid var(--gold); border-right: 2px solid var(--gold); }
+.form-done .fd-en { font-size: 10.5px; letter-spacing: .5em; color: var(--gold); font-weight: 600; display: block; margin-bottom: 14px; padding-left: .5em; }
+.form-done h3 { font-family: var(--serif); font-size: 24px; letter-spacing: .14em; margin-bottom: 18px; }
+.form-done p { font-size: 14px; color: var(--ink-soft); letter-spacing: .04em; margin-bottom: 28px; }
+
 /* ---------------- company tables ---------------- */
 .table { width: 100%; border-collapse: collapse; max-width: 880px; margin: 0 auto; }
 .table th, .table td {
@@ -646,7 +715,9 @@ a.news-item:hover::before, .news-item:hover::before { transform: scaleX(1); }
   .message-wrap { grid-template-columns: 1fr; gap: 44px; }
   .message-photo { max-width: 440px; }
   .message-body .msg-kanji { font-size: 70px; top: -40px; }
-  .contact-columns, .pp-grid { grid-template-columns: 1fr; }
+  .contact-columns, .pp-grid, .inquiry-2col { grid-template-columns: 1fr; }
+  .inquiry-submit { min-width: 100%; }
+  .form-done { padding: 44px 22px; }
   .footer-columns { grid-template-columns: 1fr; gap: 30px; }
   .history-list::before { left: 8px; }
   .history-item { flex-direction: column; gap: 4px; padding-left: 30px; }

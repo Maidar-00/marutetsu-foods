@@ -20,6 +20,23 @@
 
   <footer class="site-footer" id="site-footer"></footer>
 
+  <!-- Netlify Forms: the visible form is built by JS at runtime, so this
+       static hidden copy (same name + fields) registers the form with
+       Netlify's parser at deploy time. Do not remove. -->
+  <form name="inquiry" data-netlify="true" netlify-honeypot="inquiry-hp" hidden>
+    <input type="text" name="name">
+    <input type="text" name="company">
+    <input type="email" name="email">
+    <input type="tel" name="tel">
+    <select name="category">
+      <option value="製品について">製品について</option>
+      <option value="卸・お取引について">卸・お取引について</option>
+      <option value="採用について">採用について</option>
+      <option value="その他">その他</option>
+    </select>
+    <textarea name="message"></textarea>
+  </form>
+
   <script src="/js/site.js"></script>
 </body>
 </html>

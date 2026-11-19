@@ -393,6 +393,63 @@
       <div class="container">
         <p class="section-lead reveal" style="text-align:center;margin-bottom:40px;letter-spacing:.05em">${esc(p.lead)}</p>
         <ul class="targets">${(p.targets || []).map((t, i) => `<li class="reveal" style="transition-delay:${i * 90}ms">${esc(t)}</li>`).join('')}</ul>
+
+        ${sectionHead('CONTACT FORM', 'お問い合わせフォーム')}
+
+        <form class="inquiry-form reveal" id="inquiry-form" novalidate>
+          <div class="form-status" id="form-status" hidden></div>
+          <p class="inquiry-hp" hidden>
+            <label>メールアドレス<input type="text" name="inquiry-hp" tabindex="-1" autocomplete="off"></label>
+          </p>
+          <div class="inquiry-2col">
+            <div class="inquiry-field">
+              <label for="if-name">お名前<span class="req">必須</span></label>
+              <input id="if-name" type="text" name="name" maxlength="100" autocomplete="name">
+              <p class="if-error">お名前を入力してください</p>
+            </div>
+            <div class="inquiry-field">
+              <label for="if-company">会社名・店舗名<span class="opt">任意</span></label>
+              <input id="if-company" type="text" name="company" maxlength="100" autocomplete="organization">
+            </div>
+          </div>
+          <div class="inquiry-2col">
+            <div class="inquiry-field">
+              <label for="if-email">メールアドレス<span class="req">必須</span></label>
+              <input id="if-email" type="email" name="email" maxlength="254" autocomplete="email" inputmode="email">
+              <p class="if-error">正しいメールアドレスを入力してください</p>
+            </div>
+            <div class="inquiry-field">
+              <label for="if-tel">電話番号<span class="opt">任意</span></label>
+              <input id="if-tel" type="tel" name="tel" maxlength="30" autocomplete="tel" inputmode="tel">
+            </div>
+          </div>
+          <div class="inquiry-field">
+            <label for="if-category">お問い合わせの種類</label>
+            <select id="if-category" name="category">
+              <option value="製品について">製品について</option>
+              <option value="卸・お取引について">卸・お取引について</option>
+              <option value="採用について">採用について</option>
+              <option value="その他">その他</option>
+            </select>
+          </div>
+          <div class="inquiry-field">
+            <label for="if-message">お問い合わせ内容<span class="req">必須</span></label>
+            <textarea id="if-message" name="message" maxlength="5000"></textarea>
+            <p class="if-error">お問い合わせ内容を入力してください</p>
+          </div>
+          <p class="inquiry-note">ご入力いただいた情報は、お問い合わせへのご対応のためのみに使用いたします。</p>
+          <div class="inquiry-actions">
+            <button type="submit" class="btn inquiry-submit">送信する</button>
+          </div>
+        </form>
+
+        <div class="form-done" id="form-done" hidden>
+          <span class="fd-en">THANK YOU</span>
+          <h3>送信が完了しました</h3>
+          <p>お問い合わせありがとうございます。<br>担当者より、2営業日以内にご入力いただいたメールアドレス宛てにご返信いたします。</p>
+          <a class="btn line" href="/">ホームへ戻る</a>
+        </div>
+
         <div class="contact-columns" data-stagger>
           <div class="contact-box reveal">
             <div class="box-label">MAIL</div>
@@ -408,6 +465,72 @@
           </div>
         </div>
       </div>`;
+    bindInquiryForm();
+  }
+
+  /* The inquiry form posts to Netlify Forms (detected at deploy time from the
+     hidden static twin in contact.html). Submission → marutetsu3@carrot.ocn.ne.jp
+     via the site's email notification configured in Netlify. */
+  function bindInquiryForm() {
+    const form = $('#inquiry-form');
+    if (!form) return;
+    const status = $('#form-status');
+    const done = $('#form-done');
+    const btn = form.querySelector('.inquiry-submit');
+    const field = (n) => form.querySelector('[name="' + n + '"]');
+    const mark = (n, bad) =>
+      field(n).closest('.inquiry-field').classList.toggle('is-error', !!bad);
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      status.hidden = true;
+
+      // client-side validation (spam bots are caught by the honeypot + Netlify)
+      const bad = {
+        name: !field('name').value.trim(),
+        email: !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(field('email').value.trim()),
+        message: !field('message').value.trim()
+      };
+      ['name', 'email', 'message'].forEach((n) => mark(n, bad[n]));
+      const firstBad = ['name', 'email', 'message'].find((n) => bad[n]);
+      if (firstBad) { field(firstBad).focus(); return; }
+
+      const data = new URLSearchParams();
+      data.append('form-name', 'inquiry');
+      data.append('inquiry-hp', field('inquiry-hp').value); // humans leave it empty
+      ['name', 'company', 'email', 'tel', 'category', 'message'].forEach((n) =>
+        data.append(n, field(n).value.trim())
+      );
+
+      btn.disabled = true;
+      const label = btn.textContent;
+      btn.textContent = '送信中…';
+      try {
+        const res = await fetch('/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+          body: data.toString()
+        });
+        if (!res.ok) throw new Error('submission failed');
+        form.hidden = true;
+        done.hidden = false;
+        done.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return; // keep the button disabled — the form is finished
+      } catch (err) {
+        status.textContent =
+          '送信できませんでした。通信状況をご確認のうえ、もう一度送信をお願いいたします。';
+        status.hidden = false;
+      }
+      btn.disabled = false;
+      btn.textContent = label;
+    });
+
+    // clear a field's error as soon as the visitor starts fixing it
+    ['name', 'email', 'message'].forEach((n) =>
+      field(n).addEventListener('input', (e) =>
+        e.target.closest('.inquiry-field').classList.remove('is-error')
+      )
+    );
   }
 
   function renderCustomPage() {
